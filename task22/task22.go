@@ -2,77 +2,77 @@ package main
 
 import "fmt"
 
-type Engine struct {
-	Type      string
-	Power     float64
-	Volume    float64
-	IsRunning bool
+type Motor struct {
+	Kind       string
+	Horsepower float64
+	Capacity   float64
+	Active     bool
 }
 
-func (e *Engine) Start() {
-	if !e.IsRunning {
-		e.IsRunning = true
-		fmt.Printf("Двигатель %s запущен\n", e.Type)
+func (m *Motor) Activate() {
+	if !m.Active {
+		m.Active = true
+		fmt.Printf("Мотор %s активирован\n", m.Kind)
 	} else {
-		fmt.Println("Двигатель уже работает")
+		fmt.Println("Мотор уже работает")
 	}
 }
 
-func (e *Engine) Stop() {
-	if e.IsRunning {
-		e.IsRunning = false
-		fmt.Printf("Двигатель %s остановлен\n", e.Type)
+func (m *Motor) Deactivate() {
+	if m.Active {
+		m.Active = false
+		fmt.Printf("Мотор %s деактивирован\n", m.Kind)
 	} else {
-		fmt.Println("Двигатель уже остановлен")
+		fmt.Println("Мотор уже остановлен")
 	}
 }
 
-type Car struct {
-	Make       string
-	Model      string
-	Year       int
-	EngineInfo Engine
+type Vehicle struct {
+	Brand  string
+	Series string
+	Year   int
+	Power  Motor
 }
 
-func (c *Car) PrintInfo() {
-	fmt.Printf("Автомобиль: %s %s %d года\n", c.Make, c.Model, c.Year)
-	fmt.Printf("Двигатель: %s, %.1f л, %.1f л.с.\n",
-		c.EngineInfo.Type, c.EngineInfo.Volume, c.EngineInfo.Power)
-	fmt.Printf("Состояние: ")
-	if c.EngineInfo.IsRunning {
-		fmt.Println("заведен")
+func (v *Vehicle) Display() {
+	fmt.Printf("Транспорт: %s %s %d года выпуска\n", v.Brand, v.Series, v.Year)
+	fmt.Printf("Силовая установка: %s, %.1f л, %.1f л.с.\n",
+		v.Power.Kind, v.Power.Capacity, v.Power.Horsepower)
+	fmt.Printf("Статус: ")
+	if v.Power.Active {
+		fmt.Println("активен")
 	} else {
-		fmt.Println("не заведен")
+		fmt.Println("неактивен")
 	}
 }
 
 func main() {
-	v8Engine := Engine{
-		Type:   "бензин",
-		Power:  420,
-		Volume: 5.0,
+	v6Motor := Motor{
+		Kind:       "дизель",
+		Horsepower: 320,
+		Capacity:   3.5,
 	}
-	myCar := Car{
-		Make:       "Toyota",
-		Model:      "Camry",
-		Year:       2022,
-		EngineInfo: v8Engine,
+	myVehicle := Vehicle{
+		Brand:  "Honda",
+		Series: "Accord",
+		Year:   2023,
+		Power:  v6Motor,
 	}
 
-	fmt.Println("Информация об автомобиле:")
-	myCar.PrintInfo()
+	fmt.Println("Данные о транспорте:")
+	myVehicle.Display()
 
-	fmt.Println("\nЗапуск двигателя:")
-	myCar.EngineInfo.Start()
-	myCar.EngineInfo.Start()
+	fmt.Println("\nАктивация мотора:")
+	myVehicle.Power.Activate()
+	myVehicle.Power.Activate()
 
-	fmt.Println("\nОбновленная информация:")
-	myCar.PrintInfo()
+	fmt.Println("\nОбновленные данные:")
+	myVehicle.Display()
 
-	fmt.Println("\nОстановка двигателя:")
-	myCar.EngineInfo.Stop()
-	myCar.EngineInfo.Stop()
+	fmt.Println("\nДеактивация мотора:")
+	myVehicle.Power.Deactivate()
+	myVehicle.Power.Deactivate()
 
-	fmt.Println("\nФинальная информация:")
-	myCar.PrintInfo()
+	fmt.Println("\nИтоговая информация:")
+	myVehicle.Display()
 }

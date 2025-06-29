@@ -3,25 +3,25 @@ package main
 import "fmt"
 
 func main() {
-	var fruits []string
+	var items []string
 
-	fruits = append(fruits, "Яблоко")
-	fruits = append(fruits, "Банан")
-	fruits = append(fruits, "Апельсин")
+	items = append(items, "Яблоко")
+	items = append(items, "Банан")
+	items = append(items, "Апельсин")
 
-	fruits = append(fruits, "Груша", "Киви")
+	items = append(items, "Груша", "Киви")
 
-	fmt.Println("==== Исходный срез ====")
-	printSlice(fruits)
+	fmt.Println("=== Начальный список ===")
+	showSlice(items)
 
-	fruits = append(fruits, "Манго", "Ананас")
-	fmt.Println("\n==== После добавления новых элементов ====")
-	printSlice(fruits)
+	items = append(items, "Манго", "Ананас")
+	fmt.Println("\n=== После добавления элементов ===")
+	showSlice(items)
 }
 
-func printSlice(slice []string) {
-	for i, item := range slice {
-		fmt.Printf("Индекс: %d, Значение: %s\n", i, item)
+func showSlice(s []string) {
+	for idx, val := range s {
+		fmt.Printf("Индекс: %d, Значение: %s\n", idx, val)
 	}
-	fmt.Printf("Длина: %d, Емкость: %d\n", len(slice), cap(slice))
+	fmt.Printf("Длина среза: %d, Вместимость: %d\n", len(s), cap(s))
 }

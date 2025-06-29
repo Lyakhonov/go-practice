@@ -3,15 +3,15 @@ package main
 import "fmt"
 
 func main() {
-	var year int
-	fmt.Print("Введите год: ")
-	fmt.Scanln(&year)
+	var inputYear int
+	fmt.Print("Введите интересующий год: ")
+	fmt.Scanln(&inputYear)
 
-	isLeap := (year%4 == 0 && year%100 != 0) || (year%400 == 0)
+	leap := (inputYear%4 == 0 && inputYear%100 != 0) || (inputYear%400 == 0)
 
-	if isLeap {
-		fmt.Printf("%d год - високосный\n", year)
+	if leap {
+		fmt.Printf("Год %d является високосным\n", inputYear)
 	} else {
-		fmt.Printf("%d год - не високосный\n", year)
+		fmt.Printf("Год %d не является високосным\n", inputYear)
 	}
 }

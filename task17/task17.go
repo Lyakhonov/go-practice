@@ -6,39 +6,40 @@ import (
 )
 
 func main() {
-	var a, b float64
-	var operator string
+	var x, y float64
+	var op string
 
-	fmt.Print("Введите первое число: ")
-	fmt.Scanln(&a)
-	fmt.Print("Введите оператор (+, -, *, /): ")
-	fmt.Scanln(&operator)
-	fmt.Print("Введите второе число: ")
-	fmt.Scanln(&b)
+	fmt.Print("Введите первое значение: ")
+	fmt.Scanln(&x)
+	fmt.Print("Введите операцию (+, -, ×, ÷): ")
+	fmt.Scanln(&op)
+	fmt.Print("Введите второе значение: ")
+	fmt.Scanln(&y)
 
-	var result float64
-	var err error = nil
+	var res float64
+	var problem error
 
-	if operator == "+" {
-		result = a + b
-	} else if operator == "-" {
-		result = a - b
-	} else if operator == "*" {
-		result = a * b
-	} else if operator == "/" {
-		if b == 0 {
-			err = fmt.Errorf("ошибка: деление на ноль")
+	switch op {
+	case "+":
+		res = x + y
+	case "-":
+		res = x - y
+	case "×":
+		res = x * y
+	case "÷":
+		if y == 0 {
+			problem = fmt.Errorf("недопустимая операция: деление на ноль")
 		} else {
-			result = a / b
+			res = x / y
 		}
-	} else {
-		err = fmt.Errorf("ошибка: неизвестный оператор '%s'", operator)
+	default:
+		problem = fmt.Errorf("неподдерживаемая операция: '%s'", op)
 	}
 
-	if err != nil {
-		fmt.Println(err)
+	if problem != nil {
+		fmt.Println(problem)
 		os.Exit(1)
 	} else {
-		fmt.Printf("Результат: %.2f %s %.2f = %.2f\n", a, operator, b, result)
+		fmt.Printf("Вычисление: %.2f %s %.2f = %.2f\n", x, op, y, res)
 	}
 }

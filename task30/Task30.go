@@ -3,72 +3,72 @@ package main
 import "fmt"
 
 type Transport interface {
-	Move(speed int)
-	Stop()
+	Drive(speed int)
+	Halt()
 }
 
 type Car struct {
-	Model string
+	Name string
 }
 
-func (c Car) Move(speed int) {
-	fmt.Printf("Автомобиль %s движется со скоростью %d км/ч\n", c.Model, speed)
+func (car Car) Drive(speed int) {
+	fmt.Printf("Машина %s едет со скоростью %d км/ч\n", car.Name, speed)
 }
 
-func (c Car) Stop() {
-	fmt.Printf("Автомобиль %s остановился\n", c.Model)
+func (car Car) Halt() {
+	fmt.Printf("Машина %s остановилась\n", car.Name)
 }
 
 type Bicycle struct {
-	Brand string
+	Make string
 }
 
-func (b Bicycle) Move(speed int) {
-	fmt.Printf("Велосипед %s движется со скоростью %d км/ч\n", b.Brand, speed)
+func (bicycle Bicycle) Drive(speed int) {
+	fmt.Printf("Велосипед марки %s движется со скоростью %d км/ч\n", bicycle.Make, speed)
 }
 
-func (b Bicycle) Stop() {
-	fmt.Printf("Велосипед %s остановился\n", b.Brand)
+func (bicycle Bicycle) Halt() {
+	fmt.Printf("Велосипед %s остановился\n", bicycle.Make)
 }
 
 type Bus struct {
-	RouteNumber int
+	Line int
 }
 
-func (b Bus) Move(speed int) {
-	fmt.Printf("Автобус маршрута %d движется со скоростью %d км/ч\n", b.RouteNumber, speed)
+func (bus Bus) Drive(speed int) {
+	fmt.Printf("Автобус линии %d едет со скоростью %d км/ч\n", bus.Line, speed)
 }
 
-func (b Bus) Stop() {
-	fmt.Printf("Автобус маршрута %d остановился\n", b.RouteNumber)
+func (bus Bus) Halt() {
+	fmt.Printf("Автобус линии %d остановился\n", bus.Line)
 }
 
-func testTransport(transport Transport) {
-	transport.Move(60)
-	transport.Stop()
+func testVehicle(t Transport) {
+	t.Drive(60)
+	t.Halt()
 	fmt.Println()
 }
 
 func main() {
-	car := Car{Model: "Toyota Camry"}
-	bicycle := Bicycle{Brand: "Stels"}
-	bus := Bus{RouteNumber: 42}
+	myCar := Car{Name: "Toyota Camry"}
+	myBike := Bicycle{Make: "Stels"}
+	myBus := Bus{Line: 42}
 
-	fmt.Println("===== Тест автомобиля =====")
-	testTransport(car)
+	fmt.Println("=== Тестируем автомобиль ===")
+	testVehicle(myCar)
 
-	fmt.Println("===== Тест велосипеда =====")
-	testTransport(bicycle)
+	fmt.Println("=== Тестируем велосипед ===")
+	testVehicle(myBike)
 
-	fmt.Println("===== Тест автобуса =====")
-	testTransport(bus)
+	fmt.Println("=== Тестируем автобус ===")
+	testVehicle(myBus)
 
-	fmt.Println("===== Парк транспорта =====")
-	transports := []Transport{car, bicycle, bus}
-	for i, t := range transports {
-		fmt.Printf("Транспорт %d:\n", i+1)
-		t.Move(50)
-		t.Stop()
+	fmt.Println("=== Все транспортные средства ===")
+	vehicles := []Transport{myCar, myBike, myBus}
+	for idx, vehicle := range vehicles {
+		fmt.Printf("Транспортное средство №%d:\n", idx+1)
+		vehicle.Drive(50)
+		vehicle.Halt()
 		fmt.Println()
 	}
 }

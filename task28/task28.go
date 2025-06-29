@@ -6,72 +6,70 @@ import (
 )
 
 type BankAccount struct {
-	AccountNumber string
-	OwnerName     string
-	Balance       float64
+	ID      string
+	Owner   string
+	Balance float64
 }
 
-func NewBankAccount(accountNumber, ownerName string, initialBalance float64) *BankAccount {
+func NewBankAccount(id, owner string, initialAmount float64) *BankAccount {
 	return &BankAccount{
-		AccountNumber: accountNumber,
-		OwnerName:     ownerName,
-		Balance:       initialBalance,
+		ID:      id,
+		Owner:   owner,
+		Balance: initialAmount,
 	}
 }
 
-func (acc *BankAccount) Deposit(amount float64) {
-	if amount > 0 {
-		acc.Balance += amount
-		fmt.Printf("Счет %s: пополнение на %.2f\n", acc.AccountNumber, amount)
-	} else {
-		fmt.Println("Ошибка: сумма пополнения должна быть положительной")
-	}
-}
-
-func (acc *BankAccount) Withdraw(amount float64) error {
+func (ba *BankAccount) AddFunds(amount float64) {
 	if amount <= 0 {
-		return errors.New("сумма снятия должна быть положительной")
+		fmt.Println("Ошибка: сумма для пополнения должна быть больше нуля")
+		return
 	}
-	if amount > acc.Balance {
-		return fmt.Errorf("недостаточно средств. Текущий баланс: %.2f", acc.Balance)
+	ba.Balance += amount
+	fmt.Printf("Счет %s успешно пополнен на %.2f\n", ba.ID, amount)
+}
+
+func (ba *BankAccount) WithdrawFunds(amount float64) error {
+	if amount <= 0 {
+		return errors.New("сумма для снятия должна быть положительной")
 	}
-	acc.Balance -= amount
-	fmt.Printf("Счет %s: снятие %.2f\n", acc.AccountNumber, amount)
+	if amount > ba.Balance {
+		return fmt.Errorf("недостаточно средств на счете. Текущий баланс: %.2f", ba.Balance)
+	}
+	ba.Balance -= amount
+	fmt.Printf("Со счета %s снято %.2f\n", ba.ID, amount)
 	return nil
 }
 
-func (acc *BankAccount) CheckBalance() float64 {
-	return acc.Balance
+func (ba *BankAccount) GetBalance() float64 {
+	return ba.Balance
 }
 
-func (acc *BankAccount) PrintInfo() {
-	fmt.Printf("\nИнформация о счете:\n")
-	fmt.Printf("Номер счета: %s\n", acc.AccountNumber)
-	fmt.Printf("Владелец: %s\n", acc.OwnerName)
-	fmt.Printf("Баланс: %.2f\n", acc.CheckBalance())
+func (ba *BankAccount) DisplayInfo() {
+	fmt.Println("\n--- Информация о банковском счете ---")
+	fmt.Printf("Идентификатор счета: %s\n", ba.ID)
+	fmt.Printf("Владелец счета: %s\n", ba.Owner)
+	fmt.Printf("Текущий баланс: %.2f\n", ba.GetBalance())
 }
 
 func main() {
 	account := NewBankAccount("1234567890", "Иван Петров", 1000.0)
-	account.PrintInfo()
+	account.DisplayInfo()
 
-	fmt.Println("\n===== Операции =====")
-	account.Deposit(500.0)
-	account.Deposit(-100.0)
+	fmt.Println("\n=== Выполнение операций ===")
+	account.AddFunds(500)
+	account.AddFunds(-50)
 
-	err := account.Withdraw(300.0)
-	if err != nil {
+	if err := account.WithdrawFunds(300); err != nil {
 		fmt.Println("Ошибка при снятии:", err)
 	}
 
-	err = account.Withdraw(2000.0)
-	if err != nil {
+	if err := account.WithdrawFunds(2000); err != nil {
 		fmt.Println("Ошибка при снятии:", err)
 	}
 
-	err = account.Withdraw(-100.0)
-	if err != nil {
+	if err := account.WithdrawFunds(-100); err != nil {
 		fmt.Println("Ошибка при снятии:", err)
 	}
-	account.PrintInfo()
+
+	account.DisplayInfo()
 }

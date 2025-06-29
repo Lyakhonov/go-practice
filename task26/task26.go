@@ -2,56 +2,56 @@ package main
 
 import "fmt"
 
-type Person struct {
-	Name string
-	Age  int
+type User struct {
+	FullName string
+	Years    int
 }
 
-func modifyValue(p Person) {
-	p.Name = "Изменено по значению"
-	p.Age = 100
-	fmt.Println("\nВнутри modifyValue:")
-	fmt.Printf("Адрес: %p, Значение: %+v\n", &p, p)
+func changeByValue(u User) {
+	u.FullName = "Изменено через значение"
+	u.Years = 99
+	fmt.Println("\nВнутри changeByValue:")
+	fmt.Printf("Адрес: %p, Содержимое: %+v\n", &u, u)
 }
 
-func modifyPointer(p *Person) {
-	p.Name = "Изменено по указателю"
-	p.Age = 200
-	fmt.Println("\nВнутри modifyPointer:")
-	fmt.Printf("Адрес: %p, Значение: %+v\n", p, *p)
+func changeByPointer(u *User) {
+	u.FullName = "Изменено через указатель"
+	u.Years = 199
+	fmt.Println("\nВнутри changeByPointer:")
+	fmt.Printf("Адрес: %p, Содержимое: %+v\n", u, *u)
 }
 
 func main() {
-	fmt.Println("==== Базовые типы ====")
-	val := 10
-	fmt.Println("\nДо modifyInt:", val)
+	fmt.Println("=== Примитивные типы ===")
+	number := 10
+	fmt.Println("\nПеред вызовом changeNumber:", number)
 
-	modifyInt(val)
-	fmt.Println("После modifyInt (передача по значению):", val)
+	changeNumber(number)
+	fmt.Println("После changeNumber (передача по значению):", number)
 
-	modifyIntPtr(&val)
-	fmt.Println("После modifyIntPtr (передача по указателю):", val)
+	changeNumberPtr(&number)
+	fmt.Println("После changeNumberPtr (передача по указателю):", number)
 
-	fmt.Println("\n==== Структуры ====")
-	person := Person{Name: "Иван", Age: 30}
+	fmt.Println("\n=== Пользовательские структуры ===")
+	user := User{FullName: "Иван", Years: 30}
 
-	fmt.Println("\nДо modifyValue:")
-	fmt.Printf("Адрес: %p, Значение: %+v\n", &person, person)
-	modifyValue(person)
-	fmt.Println("\nПосле modifyValue:")
-	fmt.Printf("Адрес: %p, Значение: %+v\n", &person, person)
+	fmt.Println("\nПеред changeByValue:")
+	fmt.Printf("Адрес: %p, Содержимое: %+v\n", &user, user)
+	changeByValue(user)
+	fmt.Println("\nПосле changeByValue:")
+	fmt.Printf("Адрес: %p, Содержимое: %+v\n", &user, user)
 
-	fmt.Println("\nДо modifyPointer:")
-	fmt.Printf("Адрес: %p, Значение: %+v\n", &person, person)
-	modifyPointer(&person)
-	fmt.Println("\nПосле modifyPointer:")
-	fmt.Printf("Адрес: %p, Значение: %+v\n", &person, person)
+	fmt.Println("\nПеред changeByPointer:")
+	fmt.Printf("Адрес: %p, Содержимое: %+v\n", &user, user)
+	changeByPointer(&user)
+	fmt.Println("\nПосле changeByPointer:")
+	fmt.Printf("Адрес: %p, Содержимое: %+v\n", &user, user)
 }
 
-func modifyInt(n int) {
+func changeNumber(n int) {
 	n = 100
 }
 
-func modifyIntPtr(n *int) {
+func changeNumberPtr(n *int) {
 	*n = 200
 }
